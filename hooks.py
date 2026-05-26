@@ -279,10 +279,11 @@ def _correlation_attributes(tracer, session_id: Optional[str], extra_kwargs: dic
 
     incoming = _extract_correlation_id(extra_kwargs)
     session_text = truncate_string(session_id, 200)
+    session_key = str(session_id) if session_id else ""
     correlation_id = incoming
 
-    if session_text:
-        ps = tracer.sessions.get_or_create(session_text)
+    if session_key:
+        ps = tracer.sessions.get_or_create(session_key)
         if incoming:
             ps.correlation_id = incoming
         elif ps.correlation_id:
@@ -293,7 +294,7 @@ def _correlation_attributes(tracer, session_id: Optional[str], extra_kwargs: dic
 
     if not correlation_id:
         return {}
-    return {"correlation.id": correlation_id}
+    return {"correlation.id": truncate_string(correlation_id, 200)}
 
 
 def _per_session_sender_attributes(ps: Any) -> Dict[str, str]:

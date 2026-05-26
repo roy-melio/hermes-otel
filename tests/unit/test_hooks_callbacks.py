@@ -282,6 +282,23 @@ class TestOnPreLlmCall:
         attrs = mock_tracer.start_span.call_args[1]["attributes"]
         assert attrs["correlation.id"] == "corr-123"
 
+    def test_session_state_uses_full_session_id_for_correlation(self, mock_tracer):
+        long_session_id = "s" * 250
+        mock_tracer.spans._active_spans[f"session:{long_session_id}"] = MagicMock()
+
+        on_pre_llm_call(
+            session_id=long_session_id,
+            user_message="hello",
+            conversation_history=[],
+            is_first_turn=True,
+            model="gpt-4",
+            platform="cli",
+            correlation_id="corr-123",
+        )
+
+        assert mock_tracer.sessions.peek(long_session_id).correlation_id == "corr-123"
+        assert mock_tracer.sessions.peek(long_session_id[:200]) is None
+
     def test_pushes_parent(self, mock_tracer):
         mock_tracer.spans._active_spans["session:s1"] = MagicMock()
 
