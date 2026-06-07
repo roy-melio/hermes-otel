@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/briancaffey/hermes-otel/compare/hermes-otel-v0.4.0...hermes-otel-v0.5.0) (2026-06-07)
+
+
+### Features
+
+* allow disabling trace export per backend ([31ff25f](https://github.com/briancaffey/hermes-otel/commit/31ff25f1cfce9f2725ae2c0db347a91b467889e4))
+* allow disabling trace export per backend ([4f6898e](https://github.com/briancaffey/hermes-otel/commit/4f6898e01755207cecdd7a1307244b22c1a15e31))
+
 ## [0.4.0](https://github.com/briancaffey/hermes-otel/compare/hermes-otel-v0.3.0...hermes-otel-v0.4.0) (2026-04-26)
 
 
